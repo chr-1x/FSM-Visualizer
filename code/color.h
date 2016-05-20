@@ -68,3 +68,11 @@ RandHSV(range HueRange, range SatRange, range ValRange) {
     Result.A = 1.0f;
     return Result;
 }
+
+inline hsva_color
+DimValue(hsva_color Src, f32 MinusH)
+{
+    hsva_color Dest = Src;
+    Dest.V -= MinusH;
+    return Dest;
+}

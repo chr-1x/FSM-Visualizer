@@ -70,7 +70,7 @@ Curve(vec2 FirstP, vec2 ControlP, vec2 NextP ...)
         Result.Lengths[i] = ApproximateBezierQuadraticLength(FirstP, ControlP, NextP, 20);
         TotalLength += Result.Lengths[i];
 
-        if (i < Num - 1) {
+        if (i < SegmentCount - 1) {
             FirstP = NextP;
             ControlP = va_arg(Args, vec2);
             NextP = va_arg(Args, vec2);

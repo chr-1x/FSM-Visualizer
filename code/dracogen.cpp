@@ -7,7 +7,7 @@
 #include "geom.h"
 #include "bezier.h"
 
-global_variable f32 GlobalPixelsPerUnit = 2.15f;
+global_variable f32 GlobalPixelsPerUnit = 2.95f;
 global_variable f32 GlobalRenderScale = 3.0f;
 
 internal void
@@ -457,6 +457,7 @@ DrawDragon(bitmap* Target, pixel_color BGColor = HEX_RGB(0x000000))
     hsva_color FinColor = RandHSV(BETWEEN(0.0f, 360.0f), BETWEEN(0.4f, 0.8f), BETWEEN(0.4f, 0.6f));
     hsva_color HornColor = RandHSV(BETWEEN(0.0f, 360.0f), BETWEEN(0.1f, 0.4f), BETWEEN(0.4f, 0.6f));
     hsva_color MouthColor = RandHSV(AROUND(ScaleColor.H, 5), BETWEEN(0.4f, 0.8f), BETWEEN(0.2f, 0.4f));
+    hsva_color ToothColor = RandHSV(AROUND(HornColor.H, 5), BETWEEN(0.0f, 0.3f), BETWEEN(0.8f, 1.0f));
 
     vec2 HeadDim = V2(RandRange(70, 85), RandRange(60, 75));
     vec2 HeadOffset = HeadPosRef = V2(RandRange(-20, 40), RandRange(-10, 20));
@@ -500,7 +501,7 @@ DrawDragon(bitmap* Target, pixel_color BGColor = HEX_RGB(0x000000))
                                          V2(RandRange(-5, -25), RandRange(5, 20))) + HeadOffset;
 
     DrawLine(Target, ArrayCount(Horn.Verts), (Horn + V2(2*HeadDim.X/3, FarEyeOffset.Y)).Verts, 
-             HornThickness, TO_U8_COLOR(HornColor)*0.8f, true);
+             HornThickness, TO_U8_COLOR(DimValue(HornColor, 0.2f)), true);
 
 #if 0
     DrawOval(Target, HeadOffset + EyeOffset + FarEyeOffset, EyeSize + V2(-7.5f, -1), TO_U8_COLOR(EyeColor));
@@ -512,7 +513,7 @@ DrawDragon(bitmap* Target, pixel_color BGColor = HEX_RGB(0x000000))
 
     // Neck highlight
     DrawBezierCurveSegment(Target, 3, (verts<3>*)&Neck.Segments, Neck.TotalLength,
-                           NeckHighlightThickness, TO_U8_COLOR(ScaleColor) + HEX_RGB(0x050505), 9, true);
+                           NeckHighlightThickness, TO_U8_COLOR(DimValue(ScaleColor, -0.03f)), 9, true);
 
     DrawOval(Target, HeadOffset, HeadDim, TO_U8_COLOR(ScaleColor));
 
@@ -525,13 +526,13 @@ DrawDragon(bitmap* Target, pixel_color BGColor = HEX_RGB(0x000000))
         DrawPoly(Target, 
                  CurveTransformParametric(Neck, Plate, 0.08f + 0.92f*((f32)i / (f32)NumPlates), 
                                           NeckPlateTransformFunc),
-                 TO_U8_COLOR(HornColor)*0.8f);
+                 TO_U8_COLOR(DimValue(HornColor, 0.2f)));
 
         if (i < NumPlates) {
             DrawPoly(Target, 
                      CurveTransformParametric(Neck, Plate, 0.08f + 0.92f*((f32)(i + 0.5f) / (f32)NumPlates), 
                                               NeckSecondaryPlateTransformFunc),
-                     TO_U8_COLOR(HornColor)*0.8f);
+                     TO_U8_COLOR(DimValue(HornColor, 0.2f)));
         }
     }
 
@@ -562,12 +563,12 @@ DrawDragon(bitmap* Target, pixel_color BGColor = HEX_RGB(0x000000))
         DrawTriangle(Target, 
                      Tooth * 4 + 
                      LineOffsetParametric(Snoot, SnootBackToothOffset).Verts[i], 
-                     HEX_RGB(0xffffff)*0.7f);
+                     TO_U8_COLOR(DimValue(ToothColor, 0.3f)));
 
         DrawTriangle(Target, 
                      Tooth * 6 + 
                      LineOffsetParametric(Snoot, SnootFrontToothOffset).Verts[i], 
-                     HEX_RGB(0xffffff));
+                     TO_U8_COLOR(ToothColor));
     }
 
     DrawLine(Target, ArrayCount(Snoot.Verts), LineOffsetParametric(Snoot, SnootBottomOffset).Verts, 
@@ -585,9 +586,9 @@ DrawDragon(bitmap* Target, pixel_color BGColor = HEX_RGB(0x000000))
     DrawLine(Target, ArrayCount(Horn.Verts), Horn.Verts, HornThickness, TO_U8_COLOR(HornColor), true);
 
     DrawOval(Target, HeadOffset + EyeOffset, EyeSize, TO_U8_COLOR(EyeColor));
-    DrawOval(Target, HeadOffset + EyeOffset, V2(5, EyeSize.Y), TO_U8_COLOR(EyeColor) * 0.2f);
+    DrawOval(Target, HeadOffset + EyeOffset, V2(5, EyeSize.Y), TO_U8_COLOR(DimValue(EyeColor, 0.8f)));
 
-    DrawOval(Target, Snoot.Verts[2] + NoseOffset, V2(10, 3), TO_U8_COLOR(ScaleColor) * 0.2f);
+    DrawOval(Target, Snoot.Verts[2] + NoseOffset, V2(10, 3), TO_U8_COLOR(DimValue(ScaleColor, 0.8f)));
 
 }
 

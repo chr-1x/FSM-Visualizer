@@ -45,6 +45,7 @@ struct game_input
 
 #define GAME_UPDATE_AND_RENDER(name) void name(game_memory* Memory, game_offscreen_buffer* Buffer, game_input* Input)
 typedef GAME_UPDATE_AND_RENDER(game_update_and_render);
+extern "C" { game_update_and_render GameUpdateAndRender; }
 
 struct game_state
 {
