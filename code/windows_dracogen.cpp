@@ -351,7 +351,7 @@ WinMain(HINSTANCE Instance,
 
                 win32_game_code Game = Win32LoadGameCode(SourceGameCodeDLL, TempGameCodeDLL, LockFileName);
 
-                game_input Input;
+                game_input Input = {};
 
                 GlobalRunning = true;
                 while(GlobalRunning)

@@ -75,6 +75,18 @@ operator*(verts<Num> A, float Scale)
 
 template<int Num>
 inline verts<Num>
+operator*(verts<Num> A, vec2 Scale)
+{
+    verts<Num> Result = {};
+    for (int VertIndex = 0; VertIndex < Num; ++VertIndex)
+    {
+        Result.Verts[VertIndex] = Hadamard(A.Verts[VertIndex], Scale);
+    }
+    return Result;
+}
+
+template<int Num>
+inline verts<Num>
 RotateAroundOrigin(verts<Num> A, float Angle)
 {
     verts<Num> Result = {};

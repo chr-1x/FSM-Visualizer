@@ -61,5 +61,6 @@ struct temp_state
     memory_arena TempArena;
 
     bitmap DragonBitmap;
+    bitmap BackgroundBitmap;
 };
 

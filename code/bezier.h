@@ -30,6 +30,20 @@ BezierQuadraticDerivative(vec2 P0, vec2 P1, vec2 P2, f32 t)
     return (P1 - P0) * 2*(1 - t) + (P2 - P1) * 2*t;
 }
 
+inline vec4
+BezierQuadraticInverse(vec2 P0, vec2 P1, vec2 P2, vec2 X)
+{
+    // NOTE(chronister): Only applies if P0 - 2P1 + P2 ≠ 0
+    vec2 Radical = -2*Hadamard(P1,X) + Hadamard(P0,X) + Hadamard(P2,X) + Hadamard(P1,P1)-Hadamard(P0,P2);
+    vec2 Denominator = P0 - 2*P1 + P2;
+    vec2 A = P0 - P1;
+    vec4 t =   { (A.x + SquareRoot(Radical.x))/Denominator.x,
+                 (A.x - SquareRoot(Radical.x))/Denominator.x,
+                 (A.y + SquareRoot(Radical.y))/Denominator.y,
+                 (A.y - SquareRoot(Radical.y))/Denominator.y };
+    return t;
+}
+
 inline f32
 ApproximateBezierQuadraticLength(vec2 StartP, vec2 ControlP, vec2 EndP, int ApproximationSteps = 10)
 {
@@ -145,3 +159,33 @@ CurveTransformParametric(bezier_curve<SegmentCount> Curve, verts<PolyVertCount> 
     return Result;
 }
 
+template<int SegmentCount, int PolyVertCount>
+inline verts<PolyVertCount>
+PlaceAlongCurve(bezier_curve<SegmentCount> Curve, verts<PolyVertCount> Poly, f32 TargetDist, vec2 LastPoint,
+                        verts<PolyVertCount> (*TransformFunc)(verts<PolyVertCount> Poly, f32 Percent, vec2 Dir, vec2 Pos),
+                        f32 Step = 0.01f)
+{
+    verts<PolyVertCount> Result = {};
+
+    vec2 SegmentStartP = Curve.Segments[SegmentIndex].StartP;
+    for (int SegmentIndex = 0; SegmentIndex < SegmentCount; ++SegmentIndex)
+    {
+        vec2 SegmentEndP = Percent + (Curve.Lengths[SegmentIndex] / Curve.TotalLength);
+
+        vec2 Position = BezierQuadratic(Curve.Segments[SegmentIndex].StartP,
+                                        Curve.Segments[SegmentIndex].ControlP,
+                                        Curve.Segments[SegmentIndex].EndP,
+                                        Percent);
+
+        vec2 Direction = BezierQuadraticDerivative(Curve.Segments[SegmentIndex].StartP,
+                                                   Curve.Segments[SegmentIndex].ControlP,
+                                                   Curve.Segments[SegmentIndex].EndP,
+                                                   Unlerp(Percent, TargetPercent, NextPercent));
+
+        Result = TransformFunc(Poly, TargetPercent, Direction, Position);
+                                   
+
+        Percent = NextPercent;
+    }
+    return Result;
+}
