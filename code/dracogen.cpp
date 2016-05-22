@@ -9,7 +9,7 @@
 
 #if 1
 global_variable f32 GlobalPixelsPerUnit = 4.0f;
-global_variable f32 GlobalRenderScale = 2.0f;
+global_variable f32 GlobalRenderScale = 5.0f;
 #else
 global_variable f32 GlobalPixelsPerUnit = 0.5f;
 global_variable f32 GlobalRenderScale = 1.0f;

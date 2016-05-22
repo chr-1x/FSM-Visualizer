@@ -159,6 +159,7 @@ CurveTransformParametric(bezier_curve<SegmentCount> Curve, verts<PolyVertCount> 
     return Result;
 }
 
+#if 0
 template<int SegmentCount, int PolyVertCount>
 inline verts<PolyVertCount>
 PlaceAlongCurve(bezier_curve<SegmentCount> Curve, verts<PolyVertCount> Poly, f32 TargetDist, vec2 LastPoint,
@@ -189,3 +190,4 @@ PlaceAlongCurve(bezier_curve<SegmentCount> Curve, verts<PolyVertCount> Poly, f32
     }
     return Result;
 }
+#endif

@@ -68,8 +68,9 @@ int main (int ArgCount, char* ArgValues[])
         struct timespec ts;
         clock_gettime(CLOCK_MONOTONIC, &ts);
         srand(ts.tv_nsec);
-        Input.MonotonicCounter = rand();
-        asprintf(&DragonName, "%d", Input.MonotonicCounter);
+        int Seed = rand();
+        asprintf(&DragonName, "%d", Seed);
+        Input.MonotonicCounter = HashString(DragonName, strlen(DragonName));
     }
     else {
         DragonName = ArgValues[1];
@@ -81,6 +82,7 @@ int main (int ArgCount, char* ArgValues[])
     FixBitmap(Buffer, Buffer2);
 
     char* Filename;
-    asprintf(&Filename, "dragon_%s.png", DragonName);
-    return 0 != stbi_write_png(Filename, Buffer.Width, Buffer.Height, 4, Buffer2.Memory, Buffer.Pitch);
+    asprintf(&Filename, "dragons/%s.png", DragonName);
+    int ImageResult = stbi_write_png(Filename, Buffer.Width, Buffer.Height, 4, Buffer2.Memory, Buffer.Pitch);
+    return EXIT_SUCCESS;
 }
