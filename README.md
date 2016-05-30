@@ -1,5 +1,7 @@
 # FSM-Visualizer 
 
+![A sample graph generated out of three NFAs](http://cloud.chronal.net/public/nodegraph.png)
+
 Tool for generating FSM nodegraphs organized with force-based displacement.
 
 HUGE TODO:
