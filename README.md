@@ -1,5 +1,10 @@
-# FSM-Visualizer Tool for generating FSM nodegraphs organized with force-based
-displacement.
+# FSM-Visualizer 
+
+Tool for generating FSM nodegraphs organized with force-based displacement.
+
+HUGE TODO:
+ - Makefile
+ - Visual Studio project
 
 On Windows, you can run the simulation interactively. Presently the only
 controls are as follows:
