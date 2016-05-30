@@ -124,7 +124,7 @@ SimulateGraph(graph* NodeGraph, vec2 MinSide, vec2 MaxSide, vec2 MouseP, f32 dt)
 
         f32 AttractionKLocal = AttractionK;
 
-        if (Edge->Loopback)
+        if (Node1->ID == Node2->ID)
         {
             // Always maintain a short length for aesthetic reasons
             Node2 = NodeGraph->Nodes + Edge->Control;
@@ -304,7 +304,7 @@ DrawGraph(app_state* State, bitmap* Target, rgba_color BGColor, graph* Graph)
         }
 
         vec2 LabelP;
-        if (Edge->Loopback)
+        if (StartNode->ID == EndNode->ID)
         {
             graph_node* ControlNode = Graph->Nodes + Edge->Control;
             vec2 ControlP = ControlNode->P;
@@ -382,8 +382,10 @@ DrawGraph(app_state* State, bitmap* Target, rgba_color BGColor, graph* Graph)
         }
     }
 
+#if 0
     DrawString(State, Target, 8, "GraphGen",
                V2(0.0f, Target->Height/2 - 27.0f), 27.0f, V4(0,0,0,1));
+#endif
 }
 
 extern "C"

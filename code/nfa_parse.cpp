@@ -401,7 +401,6 @@ GenerateGraph(char* InputText, graph* Graph)
                 {
                     node_id ControlNode = AddNode(Graph, NODE_CONTROL);
                     NewEdge.Control = ControlNode;
-                    NewEdge.Loopback = true;
                 }
                 AddEdge(Graph, NewEdge);
             }
