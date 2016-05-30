@@ -62,10 +62,10 @@ BezierQuadraticInverse(vec2 P0, vec2 P1, vec2 P2, vec2 X)
     vec2 Radical = -2*Hadamard(P1,X) + Hadamard(P0,X) + Hadamard(P2,X) + Hadamard(P1,P1)-Hadamard(P0,P2);
     vec2 Denominator = P0 - 2*P1 + P2;
     vec2 A = P0 - P1;
-    vec4 t =   { (A.x + SquareRoot(Radical.x))/Denominator.x,
-                 (A.x - SquareRoot(Radical.x))/Denominator.x,
-                 (A.y + SquareRoot(Radical.y))/Denominator.y,
-                 (A.y - SquareRoot(Radical.y))/Denominator.y };
+    vec4 t =   { (A.x + sqrtf(Radical.x))/Denominator.x,
+                 (A.x - sqrtf(Radical.x))/Denominator.x,
+                 (A.y + sqrtf(Radical.y))/Denominator.y,
+                 (A.y - sqrtf(Radical.y))/Denominator.y };
     return t;
 }
 

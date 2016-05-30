@@ -1,0 +1,224 @@
+|| Note: Some input files use unchecked or unsafe operations.
+|| Note: Recompile with -Xlint:unchecked for details.
+|| Your regular expression CFG looks good!  Nice job!
+|| BASIC CASES:
+|| PASS: Grep.makeNFAFromRegex("a") matched!
+|| PASS: Grep.makeNFAFromRegex("ab") matched!
+|| PASS: Grep.makeNFAFromRegex("a|b") matched!
+|| FAIL: Grep.makeNFAFromRegex("a*") didn't match
+||     Your NFA:
+||         Nfa (id:1922154895)
+||             All States (with hashcodes): 
+||                 ACCEPT0 (obj id: 495053715)
+||                 START (obj id: 1313922862)
+||             Start State:   START
+||             Accept States: [ACCEPT0]
+||             Transitions:
+||                 START:
+||                     a -> ACCEPT0
+|| 
+||     Solution NFA (omitting unreachable states and transitions):
+||         Nfa (id:1389133897)
+||             All States (with hashcodes): 
+||                 ACCEPT0 (obj id: 793589513)
+||                 START (obj id: 189568618)
+||             Start State:   START
+||             Accept States: [ACCEPT0, START]
+||             Transitions:
+||                 ACCEPT0:
+||                     a -> ACCEPT0
+||                 START:
+||                     a -> ACCEPT0
+|| 
+|| 
+|| COMPLEX CASES:
+|| FAIL: Grep.makeNFAFromRegex("a|(b*c)") didn't match
+||     Your NFA:
+||         Nfa (id:1880587981)
+||             All States (with hashcodes): 
+||                 ACCEPT0 (obj id: 1028214719)
+||                 ACCEPT1 (obj id: 960604060)
+||                 START (obj id: 2094548358)
+||                 STATE0 (obj id: 1338668845)
+||             Start State:   START
+||             Accept States: [ACCEPT0, ACCEPT1]
+||             Transitions:
+||                 STATE0:
+||                     c -> ACCEPT0
+||                 START:
+||                     b -> STATE0
+||                     a -> ACCEPT1
+|| 
+||     Solution NFA (omitting unreachable states and transitions):
+||         Nfa (id:511754216)
+||             All States (with hashcodes): 
+||                 ACCEPT0 (obj id: 824909230)
+||                 ACCEPT1 (obj id: 664223387)
+||                 START (obj id: 1534030866)
+||                 STATE0 (obj id: 122883338)
+||             Start State:   START
+||             Accept States: [ACCEPT0, ACCEPT1]
+||             Transitions:
+||                 STATE0:
+||                     b -> STATE0
+||                     c -> ACCEPT0
+||                 START:
+||                     a -> ACCEPT1
+||                     c -> ACCEPT0
+||                     b -> STATE0
+|| 
+|| FAIL: Grep.makeNFAFromRegex("(a|bc|c)*") didn't match
+||     Your NFA:
+||         Nfa (id:1637070917)
+||             All States (with hashcodes): 
+||                 ACCEPT0 (obj id: 2046562095)
+||                 ACCEPT1 (obj id: 1702297201)
+||                 ACCEPT2 (obj id: 1199823423)
+||                 START (obj id: 1996181658)
+||                 STATE1 (obj id: 769287236)
+||             Start State:   START
+||             Accept States: [ACCEPT0, ACCEPT1, ACCEPT2]
+||             Transitions:
+||                 START:
+||                     b -> STATE1
+||                     a -> ACCEPT0
+||                     c -> ACCEPT1
+||                 STATE1:
+||                     c -> ACCEPT2
+|| 
+||     Solution NFA (omitting unreachable states and transitions):
+||         Nfa (id:780237624)
+||             All States (with hashcodes): 
+||                 ACCEPT0 (obj id: 1198108795)
+||                 ACCEPT1 (obj id: 396873410)
+||                 ACCEPT3 (obj id: 214126413)
+||                 START (obj id: 1721931908)
+||                 STATE0 (obj id: 1706234378)
+||             Start State:   START
+||             Accept States: [ACCEPT0, ACCEPT1, ACCEPT3, START]
+||             Transitions:
+||                 ACCEPT0:
+||                     b -> STATE0
+||                     a -> ACCEPT0
+||                     c -> ACCEPT1
+||                 ACCEPT1:
+||                     a -> ACCEPT0
+||                     c -> ACCEPT1
+||                     b -> STATE0
+||                 START:
+||                     b -> STATE0
+||                     c -> ACCEPT1
+||                     a -> ACCEPT0
+||                 STATE0:
+||                     c -> ACCEPT3
+||                 ACCEPT3:
+||                     b -> STATE0
+||                     c -> ACCEPT1
+||                     a -> ACCEPT0
+|| 
+|| FAIL: Grep.makeNFAFromRegex("a*b*c*") didn't match
+||     Your NFA:
+||         Nfa (id:772777427)
+||             All States (with hashcodes): 
+||                 ACCEPT0 (obj id: 1134517053)
+||                 START (obj id: 935044096)
+||                 STATE0 (obj id: 396180261)
+||                 STATE2 (obj id: 1560911714)
+||             Start State:   START
+||             Accept States: [ACCEPT0]
+||             Transitions:
+||                 STATE0:
+||                     b -> STATE2
+||                 START:
+||                     a -> STATE0
+||                 STATE2:
+||                     c -> ACCEPT0
+|| 
+||     Solution NFA (omitting unreachable states and transitions):
+||         Nfa (id:83954662)
+||             All States (with hashcodes): 
+||                 ACCEPT1 (obj id: 1128032093)
+||                 ACCEPT2 (obj id: 443308702)
+||                 ACCEPT3 (obj id: 1066516207)
+||                 START (obj id: 205797316)
+||             Start State:   START
+||             Accept States: [ACCEPT1, ACCEPT2, ACCEPT3, START]
+||             Transitions:
+||                 START:
+||                     a -> ACCEPT1
+||                     b -> ACCEPT3
+||                     c -> ACCEPT2
+||                 ACCEPT1:
+||                     b -> ACCEPT3
+||                     c -> ACCEPT2
+||                     a -> ACCEPT1
+||                 ACCEPT2:
+||                     c -> ACCEPT2
+||                 ACCEPT3:
+||                     c -> ACCEPT2
+||                     b -> ACCEPT3
+|| 
+|| FAIL: Grep.makeNFAFromRegex("(ab|cd*e)fg") didn't match
+||     Your NFA:
+||         Nfa (id:584634336)
+||             All States (with hashcodes): 
+||                 ACCEPT0 (obj id: 128893786)
+||                 START (obj id: 636718812)
+||                 STATE0 (obj id: 1494279232)
+||                 STATE1 (obj id: 1104106489)
+||                 STATE2 (obj id: 87285178)
+||                 STATE3 (obj id: 787604730)
+||                 STATE4 (obj id: 1147985808)
+||                 STATE5 (obj id: 1190654826)
+||             Start State:   START
+||             Accept States: [ACCEPT0]
+||             Transitions:
+||                 STATE0:
+||                     b -> STATE2
+||                 STATE1:
+||                     d -> STATE3
+||                 STATE2:
+||                     f -> STATE4
+||                 STATE3:
+||                     e -> STATE5
+||                 STATE4:
+||                     g -> ACCEPT0
+||                 STATE5:
+||                     f -> STATE4
+||                 START:
+||                     c -> STATE1
+||                     a -> STATE0
+|| 
+||     Solution NFA (omitting unreachable states and transitions):
+||         Nfa (id:1469821799)
+||             All States (with hashcodes): 
+||                 ACCEPT0 (obj id: 565760380)
+||                 START (obj id: 1751075886)
+||                 STATE0 (obj id: 824318946)
+||                 STATE1 (obj id: 1921595561)
+||                 STATE3 (obj id: 2108649164)
+||                 STATE4 (obj id: 930990596)
+||                 STATE5 (obj id: 777874839)
+||                 STATE6 (obj id: 596512129)
+||             Start State:   START
+||             Accept States: [ACCEPT0]
+||             Transitions:
+||                 STATE0:
+||                     d -> STATE0
+||                     e -> STATE4
+||                 STATE1:
+||                     g -> ACCEPT0
+||                 START:
+||                     a -> STATE3
+||                     c -> STATE6
+||                 STATE3:
+||                     b -> STATE5
+||                 STATE4:
+||                     f -> STATE1
+||                 STATE5:
+||                     f -> STATE1
+||                 STATE6:
+||                     d -> STATE0
+||                     e -> STATE4
+|| 
+|| 

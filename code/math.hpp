@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "chr_intrin.h"
+#include <cmath>
 
 /// Int vectors/structures
 

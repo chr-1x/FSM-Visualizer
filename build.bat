@@ -15,7 +15,7 @@ set DLL_NAME=%BASE_NAME%.dll
 set FILES= ../../code/graphgen.cpp ../../code/render.cpp ../../code/nfa_parse.cpp
 set PLATFILES= ../../code/graphgen_win.cpp 
 set DEFINES= /DINTERNAL=1
-set CCFLAGS= /MTd %DEFINES% /O2 /Oi /WX /W4 /wd4201 /wd4505 /wd4706 /wd4996 /wd4127 /FC /Z7 /Fm
+set CCFLAGS= /MTd %DEFINES% /EHsc /O2 /Oi /WX /W4 /wd4201 /wd4505 /wd4706 /wd4996 /wd4127 /FC /Z7 /Fm
 set LDFLAGS= /incremental:no /opt:ref 
 goto :win64
 

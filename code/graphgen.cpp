@@ -430,7 +430,7 @@ UPDATE_AND_RENDER(UpdateAndRender)
         }
     }
 
-    State->PixelsPerUnit = State->PixelsPerUnit * Pow(1.1f, Input->Mouse.ScrollDelta);
+    State->PixelsPerUnit = State->PixelsPerUnit * powf(1.1f, Input->Mouse.ScrollDelta);
 
     vec2 VirtualMouseP = Input->Mouse.P/State->PixelsPerUnit;
     if (!Input->Mouse.Buttons[0].IsPressed) { VirtualMouseP = V2(-50000, -50000); }

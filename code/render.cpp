@@ -125,6 +125,12 @@ FillPixel(bitmap* Target, int X, int Y, rgba_color Color, f32 Alpha, bool Blend 
     *DestPixel = TO_U8_COLOR(DestColor);
 }
 
+inline f32
+frac(f32 X)
+{
+    return X - (long)X;
+}
+
 void DrawLine(app_state* State, bitmap* Target, vec2 StartP, vec2 EndP,
          rgba_color Color, bool Blend)
 {
@@ -137,7 +143,7 @@ void DrawLine(app_state* State, bitmap* Target, vec2 StartP, vec2 EndP,
     vec2 Min = Clamp(V2(0,0), StartP, Target->Dim - V2(1,1));
     vec2 Max = Clamp(V2(0,0), EndP, Target->Dim - V2(1,1));
 
-    bool Steep = AbsoluteValue(Max.y - Min.y) > AbsoluteValue(Max.x - Min.x);
+    bool Steep = abs(Max.y - Min.y) > abs(Max.x - Min.x);
     if (Steep) 
     {
         Min = SwapComponents(Min);
@@ -154,34 +160,34 @@ void DrawLine(app_state* State, bitmap* Target, vec2 StartP, vec2 EndP,
     f32 Gradient = SafeRatio0(Delta.y, Delta.x);
 
     // First endpoint
-    vec2 End = V2((f32)Round(Min.x), Min.y + Gradient * (Round(Min.x) - Min.x));
-    f32 xGap = 1.0f - FractionalPart(Min.x + 0.5f);
-    vec2 Pixel1 = V2(End.x, (f32)Truncate(End.y));
+    vec2 End = V2((f32)round(Min.x), Min.y + Gradient * (round(Min.x) - Min.x));
+    f32 xGap = 1.0f - frac(Min.x + 0.5f);
+    vec2 Pixel1 = V2(End.x, (f32)trunc(End.y));
     if (Steep)
     {
-        FillPixel(Target, (int)Pixel1.y, (int)Pixel1.x, Color, (1.0f - FractionalPart(End.y)) * xGap, Blend);
-        FillPixel(Target, (int)Pixel1.y + 1, (int)Pixel1.x, Color, FractionalPart(End.y) * xGap, Blend);
+        FillPixel(Target, (int)Pixel1.y, (int)Pixel1.x, Color, (1.0f - frac(End.y)) * xGap, Blend);
+        FillPixel(Target, (int)Pixel1.y + 1, (int)Pixel1.x, Color, frac(End.y) * xGap, Blend);
     }
     else
     {
-        FillPixel(Target, (int)Pixel1.x, (int)Pixel1.y, Color, (1.0f - FractionalPart(End.y)) * xGap, Blend);
-        FillPixel(Target, (int)Pixel1.x, (int)Pixel1.y + 1, Color, FractionalPart(End.y) * xGap, Blend);
+        FillPixel(Target, (int)Pixel1.x, (int)Pixel1.y, Color, (1.0f - frac(End.y)) * xGap, Blend);
+        FillPixel(Target, (int)Pixel1.x, (int)Pixel1.y + 1, Color, frac(End.y) * xGap, Blend);
     }
     f32 IntersectionY = End.y + Gradient;
 
     // Second endpoint
-    End = V2((f32)Round(Max.x), Max.y + Gradient * ((f32)Round(Max.x) - Max.x));
-    xGap = 1.0f - FractionalPart(Max.x + 0.5f);
-    vec2 Pixel2 = V2(End.x, (f32)Truncate(End.y));
+    End = V2((f32)round(Max.x), Max.y + Gradient * ((f32)round(Max.x) - Max.x));
+    xGap = 1.0f - frac(Max.x + 0.5f);
+    vec2 Pixel2 = V2(End.x, (f32)trunc(End.y));
     if (Steep)
     {
-        FillPixel(Target, (int)Pixel2.y, (int)Pixel2.x, Color, (1.0f - FractionalPart(End.y)) * xGap, Blend);
-        FillPixel(Target, (int)Pixel2.y + 1, (int)Pixel2.x, Color, FractionalPart(End.y) * xGap, Blend);
+        FillPixel(Target, (int)Pixel2.y, (int)Pixel2.x, Color, (1.0f - frac(End.y)) * xGap, Blend);
+        FillPixel(Target, (int)Pixel2.y + 1, (int)Pixel2.x, Color, frac(End.y) * xGap, Blend);
     }
     else
     {
-        FillPixel(Target, (int)Pixel2.x, (int)Pixel2.y, Color, (1.0f - FractionalPart(End.y)) * xGap, Blend);
-        FillPixel(Target, (int)Pixel2.x, (int)Pixel2.y + 1, Color, FractionalPart(End.y) * xGap, Blend);
+        FillPixel(Target, (int)Pixel2.x, (int)Pixel2.y, Color, (1.0f - frac(End.y)) * xGap, Blend);
+        FillPixel(Target, (int)Pixel2.x, (int)Pixel2.y + 1, Color, frac(End.y) * xGap, Blend);
     }
 
     // Main loop
@@ -189,13 +195,13 @@ void DrawLine(app_state* State, bitmap* Target, vec2 StartP, vec2 EndP,
     {
         if (Steep)
         {
-            FillPixel(Target, (int)IntersectionY, (int)X, Color, (1.0f - FractionalPart(IntersectionY)), Blend);
-            FillPixel(Target, (int)IntersectionY + 1, (int)X, Color, FractionalPart(IntersectionY), Blend);
+            FillPixel(Target, (int)IntersectionY, (int)X, Color, (1.0f - frac(IntersectionY)), Blend);
+            FillPixel(Target, (int)IntersectionY + 1, (int)X, Color, frac(IntersectionY), Blend);
         }
         else
         {
-            FillPixel(Target, (int)X, (int)IntersectionY, Color, (1.0f - FractionalPart(IntersectionY)), Blend);
-            FillPixel(Target, (int)X, (int)IntersectionY + 1, Color, FractionalPart(IntersectionY), Blend);
+            FillPixel(Target, (int)X, (int)IntersectionY, Color, (1.0f - frac(IntersectionY)), Blend);
+            FillPixel(Target, (int)X, (int)IntersectionY + 1, Color, frac(IntersectionY), Blend);
         }
         IntersectionY += Gradient;
     }
@@ -362,6 +368,11 @@ void DrawBezierCubicSegment(app_state* State, bitmap* Target,
     }
 }
 
+inline int
+FloorToInt(f32 X)
+{
+    return (int)floor(X);
+}
 
 int DrawCharacterGlyph(app_state* State, 
                    bitmap* Target, int Character, vec2 Position, 
@@ -419,18 +430,18 @@ int DrawCharacterGlyph(app_state* State,
     for(int Y = ClampedMinY; Y < ClampedMaxY; ++Y)
     {
         f32 RefY = ((Position + 2*GlyphHalfDim).y - Y - 1.5f);
-        u8 *SourceRow = MonoBitmap + SourcePitch * (Floor(RefY) + 1);
+        u8 *SourceRow = MonoBitmap + SourcePitch * (FloorToInt(RefY) + 1);
         u8 *DestRow = (u8*)Target->Memory + (Target->Width * Target->BytesPerPixel) * (Y);
         for(int X = ClampedMinX; X < ClampedMaxX; ++X)
         {
             vec2 Ref = V2(X + 1.5f - Position.x, RefY);
-            vec2 Error = Ref - V2(Floor(Ref.x), Floor(Ref.y));
+            vec2 Error = Ref - V2(FloorToInt(Ref.x), FloorToInt(Ref.y));
 
             // Grab out the four pixels to sample from the glyph
-            u8 MonoColor1 = *(SourceRow + MonoBytesPerPixel*(Floor(Ref.x)));
-            u8 MonoColor2 = *(SourceRow + MonoBytesPerPixel*(Floor(Ref.x + 1)));
-            u8 MonoColor3 = *(SourceRow + SourcePitch + MonoBytesPerPixel*(Floor(Ref.x)));
-            u8 MonoColor4 = *(SourceRow + SourcePitch + MonoBytesPerPixel*(Floor(Ref.x + 1)));
+            u8 MonoColor1 = *(SourceRow + MonoBytesPerPixel*(FloorToInt(Ref.x)));
+            u8 MonoColor2 = *(SourceRow + MonoBytesPerPixel*(FloorToInt(Ref.x + 1)));
+            u8 MonoColor3 = *(SourceRow + SourcePitch + MonoBytesPerPixel*(FloorToInt(Ref.x)));
+            u8 MonoColor4 = *(SourceRow + SourcePitch + MonoBytesPerPixel*(FloorToInt(Ref.x + 1)));
 
             pixel_color* DestPixel = (pixel_color*)(DestRow + (Target->BytesPerPixel * X));
             rgba_color DestColor = FromU8Color(*DestPixel);
