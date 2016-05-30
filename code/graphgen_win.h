@@ -8,11 +8,11 @@ struct win32_offscreen_buffer
     int Pitch;
 };
 
-struct win32_game_code
+struct win32_dynamic_code
 {
-    bool32 IsValid;
+    bool IsValid;
     HMODULE DLLHandle;
     FILETIME DLLLastWriteTime;
 
-    game_update_and_render* UpdateAndRender;
+    update_and_render* UpdateAndRender;
 };

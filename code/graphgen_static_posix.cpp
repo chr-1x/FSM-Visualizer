@@ -3,7 +3,7 @@
 #include <sys/mman.h>
 #include <time.h>
 #include <errno.h>
-#include "dracogen.h"
+#include "graphgen.h"
 
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb_image_write.h"
