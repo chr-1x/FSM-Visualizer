@@ -441,9 +441,12 @@ UPDATE_AND_RENDER(UpdateAndRender)
                   VirtualMouseP,
                   Input->dt);
 
-    ClearBitmap(Buffer, V4(1,1,1,1));
-    DrawGraph(State, Buffer, V4(1,1,1,0), State->Graph);
+    if (!Input->SimulateOnly)
+    {
+        ClearBitmap(Buffer, V4(1,1,1,1));
+        DrawGraph(State, Buffer, V4(1,1,1,0), State->Graph);
 
-    DrawOval(State, Buffer, V2(Input->Mouse.P.X, Input->Mouse.P.Y) / State->PixelsPerUnit,
-             V2(0.2f, 0.2f), V4(0,0,0,0.5f));
+        DrawOval(State, Buffer, V2(Input->Mouse.P.X, Input->Mouse.P.Y) / State->PixelsPerUnit,
+                 V2(0.2f, 0.2f), V4(0,0,0,0.5f));
+    }
 }

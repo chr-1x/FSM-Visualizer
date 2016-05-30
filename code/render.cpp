@@ -1,4 +1,3 @@
-#pragma once
 #include "graphgen.h"
 #include "render.h"
 #include "geom.hpp"

@@ -35,6 +35,7 @@ struct app_input
 
     bool Reloaded;
     bool Resized;
+    bool SimulateOnly;
 
     struct {
         ivec2 P;

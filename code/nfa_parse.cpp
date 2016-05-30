@@ -1,4 +1,3 @@
-#pragma once
 #include "nfa_parse.h"
 #include <cassert>
 
