@@ -313,14 +313,13 @@ DrawGraph(app_state* State, bitmap* Target, rgba_color BGColor, graph* Graph)
             f32 ControlDist = 4.0f;
             bezier_cubic<1> EdgeCurve = CurveCubic<1>(StartNode->P, StartNode->P + (0.5f*ControlDist)*NodeDir + (0.5f*ControlDist)*Perp(NodeDir), 
                                                                     StartNode->P + (0.5f*ControlDist)*NodeDir - (0.5f*ControlDist)*Perp(NodeDir), StartNode->P);
-            DrawBezierCubicSegment(State, Target, 1, (verts<4>*)EdgeCurve.Segments, EdgeCurve.TotalLength,
-                                   LineWidth, V4(0,0,0,1), 15, false);
+            DrawBezierCubicSegment(State, Target, EdgeCurve.Segments[0], 
+                                   LineWidth, V4(0,0,0,1), 15, true);
 
             LabelP = StartNode->P + 0.45f*ControlDist * NodeDir;
         }
         else {
-            vec2 LineVerts[2] = { P1, P2 };
-            DrawLinearArrow(State, Target, LineVerts, 1.5f*LineWidth, 4.0f*LineWidth, V4(0,0,0,1));
+            DrawLinearArrow(State, Target, P1, P2, 1.5f*LineWidth, 4.0f*LineWidth, V4(0,0,0,1));
 
             LabelP = StartNode->P + 0.5f*Diff + 0.3f*LeftNormal(Diff);
         }
@@ -331,7 +330,7 @@ DrawGraph(app_state* State, bitmap* Target, rgba_color BGColor, graph* Graph)
                 Edge->Transition.Start[0] == '-') 
             {
                 int CodePoint = 0x03b5;
-                //TODO(chronister): THIS IS WRONG
+                //TODO(chronister): THIS IS WRONG! DrawWorldString doesn't take a multibyte string!
                 DrawWorldString(State, Target, 1, (char*)&CodePoint,
                                 LabelP, 0.6f, V4(0,0,0,1));
             }

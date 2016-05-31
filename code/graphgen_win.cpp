@@ -3,13 +3,29 @@
 #include "graphgen.h"
 #include "windows.h"
 #include "windowsx.h"
-#include "graphgen_win.h"
+
+struct win32_offscreen_buffer
+{
+    BITMAPINFO Info;
+    void *Memory;
+    int Width; int Height;
+    int Pitch;
+};
+
+struct win32_dynamic_code
+{
+    bool IsValid;
+    HMODULE DLLHandle;
+    FILETIME DLLLastWriteTime;
+
+    update_and_render* UpdateAndRender;
+};
 
 global_variable bool GlobalRunning;
 global_variable bool GlobalResized;
 global_variable ivec2 GlobalMouseP;
 global_variable win32_offscreen_buffer GlobalBackbuffer;
-global_variable int64 GlobalPerfCountFrequency;
+global_variable s64 GlobalPerfCountFrequency;
 
 internal void
 Win32GetEXEFileName(size_t EXEFileNameCapacity, char* EXEFileName, char** OnePastLastSlash)
@@ -31,14 +47,14 @@ internal void
 CatStrings(size_t SourceACount, char* SourceA, size_t SourceBCount, char* SourceB, size_t DestCount, char* Dest)
 {
     
-    for (uint32 Index = 0;
+    for (u32 Index = 0;
         Index < Min(SourceACount, DestCount);
         ++Index)
     {
         *Dest++ = *SourceA++;
     }
 
-    for (uint32 Index = 0;
+    for (u32 Index = 0;
         Index < Min(SourceBCount, DestCount - SourceACount);
         ++Index)
     {
@@ -195,7 +211,7 @@ Win32DirectoryWildcardLimit5(char* Search, int* NumberOfListedFiles, char* Liste
     int Found = true;
     do
     {   
-        uint32 Attribs = FindData.dwFileAttributes;
+        u32 Attribs = FindData.dwFileAttributes;
         if (Attribs & FILE_ATTRIBUTE_DIRECTORY)
         {
             // Don't recurse
@@ -210,7 +226,7 @@ Win32DirectoryWildcardLimit5(char* Search, int* NumberOfListedFiles, char* Liste
         Found = FindNextFile(FindHandle, &FindData);
     } while(Found != 0 && *NumberOfListedFiles < 5);
 
-    uint32 LastError = GetLastError();
+    u32 LastError = GetLastError();
     if (LastError != ERROR_NO_MORE_FILES)
     {
         OutputDebugString("Couldn't get all files");

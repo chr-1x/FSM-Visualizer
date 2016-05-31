@@ -21,7 +21,7 @@ void ClearBitmap(bitmap* Image, rgba_color ClearColor)
     pixel_color Color = TO_U8_COLOR(ClearColor);
     for (int Y = 0; Y < Image->Height; ++Y)
     {
-        uint8* DestRow = (uint8*)Image->Memory + (Image->BytesPerPixel * Image->Width) * Y;
+        u8* DestRow = (u8*)Image->Memory + (Image->BytesPerPixel * Image->Width) * Y;
         for (int X = 0; X < Image->Width; ++X)
         {
             pixel_color* DestPixel = (pixel_color*)(DestRow + X * Image->BytesPerPixel);
@@ -40,8 +40,8 @@ void DrawBitmap(bitmap* Buffer, bitmap Image, int OffsetX, int OffsetY, int Scal
     
     for (int Y = DestMinY; Y < DestMaxY; ++Y)
     {
-        uint8* SourceRow = (uint8*)Image.Memory + (Image.Width * Image.BytesPerPixel) * ((Y - DestMinY)/Scale);
-        uint8* DestRow = (uint8*)Buffer->Memory + (Buffer->Stride) * Y;
+        u8* SourceRow = (u8*)Image.Memory + (Image.Width * Image.BytesPerPixel) * ((Y - DestMinY)/Scale);
+        u8* DestRow = (u8*)Buffer->Memory + (Buffer->Stride) * Y;
         for (int X = DestMinX; X < DestMaxX; ++X)
         {
             pixel_color* SourcePixel = (pixel_color*)(SourceRow + (X - DestMinX)/Scale * Image.BytesPerPixel);
@@ -77,7 +77,7 @@ void DrawOval(app_state* State, bitmap* Buffer, vec2 Center, vec2 Radius, rgba_c
 
     for (int Y = MinY; Y < MaxY; ++Y) 
     {
-        uint8* DestRow = (uint8*)Buffer->Memory + (Buffer->Width * Buffer->BytesPerPixel) * Y;
+        u8* DestRow = (u8*)Buffer->Memory + (Buffer->Width * Buffer->BytesPerPixel) * Y;
         for (int X = MinX; X < MaxX; ++X)
         {
             pixel_color* DestPixel = (pixel_color*)(DestRow + X * Buffer->BytesPerPixel);
@@ -227,7 +227,7 @@ void DrawTriangle(app_state* State, bitmap* Buffer, tri Tri, rgba_color Color, b
 
     for (int Y = MinY; Y < MaxY; ++Y) 
     {
-        uint8* DestRow = (uint8*)Buffer->Memory + (Buffer->Width * Buffer->BytesPerPixel) * Y;
+        u8* DestRow = (u8*)Buffer->Memory + (Buffer->Width * Buffer->BytesPerPixel) * Y;
         for (int X = MinX; X < MaxX; ++X)
         {
             pixel_color* DestPixel = (pixel_color*)(DestRow + X * Buffer->BytesPerPixel);
@@ -282,12 +282,9 @@ void DrawLine(app_state* State, bitmap* Target, vec2 StartP, vec2 EndP,
     }
 }
 
-void DrawLinearArrow(app_state* State, bitmap* Buffer, vec2* Vertices, 
+void DrawLinearArrow(app_state* State, bitmap* Buffer, vec2 P1, vec2 P2,
          f32 Thickness, f32 ArrowSize, rgba_color Color, bool Blend)
 {
-    vec2 P1 = Vertices[0];
-    vec2 P2 = Vertices[1];
-
     vec2 Diff = P2 - P1;
     P2 = P1 + (Length(Diff) - ArrowSize)*Normalize(Diff);
 
@@ -334,37 +331,26 @@ void DrawBezierQuadraticSegment(app_state* State, bitmap* Target,
 }
 
 void DrawBezierCubicSegment(app_state* State, bitmap* Target, 
-                            int CurveCount, verts<4>* Curves, f32 TotalLength,
+                            bezier_cubic_segment CurveSegment,
                             f32 Thickness, rgba_color Color, 
                             int SegmentsPerCurve, bool MiterEnds)
 {
-    //TODO(chronister): Is there a good way to approximate this length more quickly?
-    f32 Percent = 0.0f;
-    for (int CurveIndex = 0; CurveIndex < CurveCount; ++CurveIndex)
+    for (int SegmentIndex = 0; SegmentIndex < SegmentsPerCurve; ++SegmentIndex)
     {
-        verts<4> CurveSegment = Curves[CurveIndex];
-        for (int SegmentIndex = 0; SegmentIndex < SegmentsPerCurve; ++SegmentIndex)
-        {
-            f32 t = (f32)SegmentIndex / (f32)SegmentsPerCurve;
-            f32 tNext = (f32)(SegmentIndex + 1) / (f32)SegmentsPerCurve;
-            
-            vec2 Line[2];
-            Line[0] = BezierCubic(CurveSegment.Verts[0],
-                                  CurveSegment.Verts[1],
-                                  CurveSegment.Verts[2],
-                                  CurveSegment.Verts[3], t);
-            Line[1] = BezierCubic(CurveSegment.Verts[0],
-                                  CurveSegment.Verts[1],
-                                  CurveSegment.Verts[2],
-                                  CurveSegment.Verts[3], tNext);
-            f32 SegmentLength = Length(Line[1] - Line[0]);
-            f32 NextPercent = Percent + (SegmentLength / TotalLength);
+        f32 t = (f32)SegmentIndex / (f32)SegmentsPerCurve;
+        f32 tNext = (f32)(SegmentIndex + 1) / (f32)SegmentsPerCurve;
+        
+        vec2 Line[2];
+        Line[0] = BezierCubic(CurveSegment.StartP,
+                              CurveSegment.ControlP1,
+                              CurveSegment.ControlP2,
+                              CurveSegment.EndP, t);
+        Line[1] = BezierCubic(CurveSegment.StartP,
+                              CurveSegment.ControlP1,
+                              CurveSegment.ControlP2,
+                              CurveSegment.EndP, tNext);
 
-            DrawLine(State, Target, Line[0], Line[1], Thickness, Color, 
-                     MiterEnds || (0 < SegmentIndex && SegmentIndex < SegmentsPerCurve - 1) || (0 < CurveIndex && CurveIndex < CurveCount - 1));
-
-            Percent = NextPercent;
-        }
+        DrawLine(State, Target, Line[0], Line[1], Thickness, Color, MiterEnds);
     }
 }
 

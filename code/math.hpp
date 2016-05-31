@@ -326,7 +326,7 @@ operator+(vec2 A, ivec2 B)
 //
 
 inline vec2
-V2(int32 x, int32 y)
+V2(s32 x, s32 y)
 {
 	vec2 Result = {(f32)x, (f32)y};
 	return Result;

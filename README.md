@@ -4,9 +4,12 @@
 
 Tool for generating FSM nodegraphs organized with force-based displacement.
 
-HUGE TODO:
- - Makefile
- - Visual Studio project
+## Using the visualizer
+
+Prebuilt executables will be made available once the feature set has stabilized
+a bit.
+
+### Interactive use
 
 On Windows, you can run the simulation interactively. Presently the only
 controls are as follows:
@@ -28,6 +31,8 @@ directory. NFA files are currently a slightly modified version of the UW CSE 311
 tester output, which has had sentinel values added around transition characters
 to ease parsing. This is negotiable and efforts are presently underway to add
 support for parsing NFAs from this output without modification.
+
+### Noninteractive use
 
 On POSIX compliant systems, (Linux and Mac, primarily), you can compile with the
 `graphgen_static_posix.cpp` platform layer to use the program as a
@@ -55,14 +60,43 @@ These are the constants used in the simulation. In order:
  -  `NodeRadius` -- The size of the nodes in the simulation. Given in units,
     which at the default zoom level are equvalent to 40 pixels.
 
-An eventual (but presently out of scope) goal is to add a convenient interface
-in the running program to tweak these so that a good balance can be reached.
-For now, if you are running on Windows, the platform layer can (and currently
-has to) be compiled separately from the rest of the program to allow for
-hot-reloading of the application. This enables easy modification of these
-constants and other aesthetic parts of the program.
+## Building/Debugging
 
-To-do list, in approximate order of importance:
+### Windows
+
+Use the `build.bat` script to build on windows. It optionally accepts an
+argument whose value should be either "win32" or "win64" to build for 32-bit or
+64-bit respectively.
+
+In order for this batch file to operate correctly, you will need to have run
+vcvarsall.bat on the shell beforehand. This is usually found in a directory
+along the lines of `C:\Programs32\Microsoft Visual Studio 14.0\VC\`. 
+
+To debug, you can either run visual studio on the produced executable directly
+or rely on `debug.bat` to do so for you. `debug.bat` assumes the `%VC%`
+environment variable contains the path used above. If you wish to break on
+specific source files, you can simply drag them into Visual Studio from
+explorer and place your breakpoints.
+
+### Linux
+
+A makefile is provided which should work out of the box on most machines. Use
+`make` in the main project directory to build.
+
+To debug, I hope you have a good C++ debugger on hand. I prefer `cgdb` for most
+purposes, an ncurses wrapper for gdb that allows you to view the source code
+continuously while debugging.
+
+## To-do list
+
+An eventual (but presently out of scope) goal is to add a convenient interface
+in the running program to tweak the simulation parameters so that a good balance
+can be reached.  For now, if you are running on Windows, the platform layer can
+(and currently has to) be compiled separately from the rest of the program to
+allow for hot-reloading of the application. This enables easy modification of
+these constants and other aesthetic parts of the program.
+
+The rest of the list, in approximate order of importance:
 
  - Better parsing to allow unmodified input from the UW CSE 311 tester output
     - Better error handling and messages on malformed input

@@ -20,14 +20,17 @@ BezierCubic(vec2 P0, vec2 P1, vec2 P2, vec2 P3, f32 t)
     return (1.0f - t)*BezierQuadratic(P0, P1, P2, t) + t*BezierQuadratic(P1, P2, P3, t);
 }
 
+struct bezier_quadratic_segment 
+{
+    vec2 StartP;  
+    vec2 ControlP;   
+    vec2 EndP;
+};
+
 template <int SegmentCount>
 struct bezier_quadratic
 {
-    struct quadratic_segment {
-        vec2 StartP;  
-        vec2 ControlP;   
-        vec2 EndP;
-    } Segments[SegmentCount];
+    bezier_quadratic_segment Segments[SegmentCount];
 
     //NOTE(chronister): These are APPROXIMATES!
     // The approximation accuracy is determined by the argument
@@ -37,15 +40,18 @@ struct bezier_quadratic
     f32 TotalLength;
 };
 
+struct bezier_cubic_segment 
+{
+    vec2 StartP;  
+    vec2 ControlP1;
+    vec2 ControlP2;   
+    vec2 EndP;
+};
+
 template <int SegmentCount>
 struct bezier_cubic
 {
-    struct quadratic_segment {
-        vec2 StartP;  
-        vec2 ControlP1;
-        vec2 ControlP2;   
-        vec2 EndP;
-    } Segments[SegmentCount];
+    bezier_cubic_segment Segments[SegmentCount];
 
     //NOTE(chronister): These are APPROXIMATES!
     // The approximation accuracy is determined by the argument
