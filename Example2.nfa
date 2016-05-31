@@ -1,0 +1,46 @@
+Nfa (id:1614133563)
+    All States (with hashcodes): 
+        ACCEPT0 (obj id: 2007599722)
+        ACCEPT1 (obj id: 1964434661)
+        ACCEPT2 (obj id: 1464177809)
+        ACCEPT3 (obj id: 65080774)
+        ACCEPT4 (obj id: 1172535934)
+        ACCEPT5 (obj id: 1585571244)
+        START (obj id: 1563053805)
+        STATE1 (obj id: 94830685)
+    Start State:   START
+    Accept States: [ACCEPT0, ACCEPT1, ACCEPT2, ACCEPT3, ACCEPT4, ACCEPT5]
+    Transitions:
+        ACCEPT1:
+            c -> ACCEPT4
+            b -> STATE1
+            b -> ACCEPT3
+            a -> ACCEPT5
+            a -> ACCEPT1
+        ACCEPT2:
+            a -> ACCEPT0
+            a -> ACCEPT1
+            b -> STATE1
+            b -> ACCEPT3
+            c -> ACCEPT4
+        START:
+            a -> ACCEPT2
+        ACCEPT3:
+            b -> STATE1
+            b -> ACCEPT3
+            a -> ACCEPT1
+            c -> ACCEPT4
+        STATE1:
+            b -> STATE1
+            a -> ACCEPT1
+        ACCEPT4:
+            a -> ACCEPT1
+            c -> ACCEPT4
+            b -> STATE1
+            b -> ACCEPT3
+        ACCEPT5:
+            b -> STATE1
+            c -> ACCEPT4
+            b -> ACCEPT3
+            a -> ACCEPT1
+            a -> ACCEPT5

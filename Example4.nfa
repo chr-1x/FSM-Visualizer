@@ -1,0 +1,118 @@
+Nfa (id:1917082298)
+    All States (with hashcodes): 
+        ACCEPT0 (obj id: 1197721383)
+        START (obj id: 1408533352)
+        STATE0 (obj id: 58890945)
+        STATE1 (obj id: 2076249476)
+        STATE10 (obj id: 79919963)
+        STATE11 (obj id: 1660837991)
+        STATE12 (obj id: 798622145)
+        STATE14 (obj id: 617928649)
+        STATE15 (obj id: 173738886)
+        STATE16 (obj id: 2015999862)
+        STATE17 (obj id: 913242382)
+        STATE18 (obj id: 628392976)
+        STATE19 (obj id: 353023213)
+        STATE2 (obj id: 1560379655)
+        STATE20 (obj id: 1527007086)
+        STATE21 (obj id: 371397455)
+        STATE22 (obj id: 1454171136)
+        STATE23 (obj id: 647973805)
+        STATE24 (obj id: 1648582256)
+        STATE25 (obj id: 1907604549)
+        STATE26 (obj id: 1995952705)
+        STATE27 (obj id: 203819996)
+        STATE28 (obj id: 979550238)
+        STATE3 (obj id: 1430199669)
+        STATE4 (obj id: 609483101)
+        STATE5 (obj id: 2023917549)
+        STATE6 (obj id: 1800967368)
+        STATE7 (obj id: 367967231)
+        STATE8 (obj id: 1946111918)
+        STATE9 (obj id: 1434066477)
+    Start State:   START
+    Accept States: [ACCEPT0]
+    Transitions:
+        STATE0:
+            m -> ACCEPT0
+        STATE1:
+            m -> ACCEPT0
+        STATE2:
+            m -> ACCEPT0
+        STATE3:
+            m -> ACCEPT0
+        STATE4:
+            m -> ACCEPT0
+        STATE5:
+            m -> ACCEPT0
+        STATE6:
+            m -> ACCEPT0
+        STATE7:
+            m -> ACCEPT0
+        STATE8:
+            m -> ACCEPT0
+        STATE9:
+            m -> ACCEPT0
+        STATE10:
+            z -> STATE16
+            e -> STATE21
+            o -> STATE22
+            b -> STATE19
+            g -> STATE20
+            r -> STATE23
+            k -> STATE7
+            n -> STATE11
+            x -> STATE12
+            y -> STATE6
+            w -> STATE8
+            d -> STATE5
+            v -> STATE15
+            a -> STATE25
+            m -> STATE3
+            i -> STATE26
+            l -> STATE4
+            t -> STATE9
+            p -> STATE2
+            s -> STATE1
+            q -> STATE24
+            c -> STATE28
+            f -> STATE18
+            u -> STATE17
+            h -> STATE27
+            j -> STATE0
+        STATE11:
+            m -> ACCEPT0
+        STATE12:
+            m -> ACCEPT0
+        START:
+            a -> STATE14
+        STATE14:
+            d -> STATE10
+        STATE15:
+            m -> ACCEPT0
+        STATE16:
+            m -> ACCEPT0
+        STATE17:
+            m -> ACCEPT0
+        STATE18:
+            m -> ACCEPT0
+        STATE19:
+            m -> ACCEPT0
+        STATE20:
+            m -> ACCEPT0
+        STATE21:
+            m -> ACCEPT0
+        STATE22:
+            m -> ACCEPT0
+        STATE23:
+            m -> ACCEPT0
+        STATE24:
+            m -> ACCEPT0
+        STATE25:
+            m -> ACCEPT0
+        STATE26:
+            m -> ACCEPT0
+        STATE27:
+            m -> ACCEPT0
+        STATE28:
+            m -> ACCEPT0
