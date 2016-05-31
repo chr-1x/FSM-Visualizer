@@ -12,7 +12,7 @@ a bit.
 ### Generating NFA data files
 
 Presently, the only way to generate valid data files is by using the provided
-NFAWriter class with UW CSE 311 Grep project.
+NFAWriter class with the UW CSE 311 Grep project.
 
 Copy the `NFAWriter.java` file to your Grep project's src directory. From
 anywhere in your code that deals with NFA's you can now add lines like the
