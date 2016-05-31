@@ -188,7 +188,7 @@ EatToken(tokenizer* Tokenizer)
 internal bool
 TokenTextEquals(token Token, char* String)
 {
-    for (int CharIndex = 0;
+    for (uint CharIndex = 0;
         CharIndex < Token.Text.Length;
         ++CharIndex)
     {

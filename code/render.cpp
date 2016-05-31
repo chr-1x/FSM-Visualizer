@@ -459,7 +459,7 @@ CalculateStringWidth(app_state* State,
 {
     f32 TotalWidth = 0.0f;
     f32 Scale = stbtt_ScaleForPixelHeight(&State->FontInfo, HeightInPixels);
-    for (int CharIndex = 0; CharIndex < Length; ++CharIndex)
+    for (uint CharIndex = 0; CharIndex < Length; ++CharIndex)
     {
         int Advance, LeftSideBearing, KernAdvance = 0;
         stbtt_GetCodepointHMetrics(&State->FontInfo, String[CharIndex],
@@ -482,7 +482,7 @@ void DrawString(app_state* State, bitmap* Target,
     f32 XOffset = -TotalWidth/2.0f;
     f32 Scale = stbtt_ScaleForPixelHeight(&State->FontInfo, HeightInPixels);
 
-    for (int CharIndex = 0; CharIndex < Length; ++CharIndex)
+    for (uint CharIndex = 0; CharIndex < Length; ++CharIndex)
     {
         int Advance, LeftSideBearing, KernAdvance = 0;
         stbtt_GetCodepointHMetrics(&State->FontInfo, String[CharIndex],
