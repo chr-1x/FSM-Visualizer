@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <cstring>
+#include <cmath>
 #include "types.h"
 #include "math.hpp"
 #include "bezier.hpp"

@@ -68,7 +68,7 @@ int main (int ArgCount, char* ArgValues[])
 {
     if (ArgCount < 2)
     {
-        fprintf(stderr, "Usage: %s <NFAConstructorTester output file>", ArgValues[0]);
+        fprintf(stderr, "Usage: %s <NFAConstructorTester output file>\n", ArgValues[0]);
         return EXIT_FAILURE;
     }
     char* NFAFile = ArgValues[1];
@@ -118,7 +118,7 @@ int main (int ArgCount, char* ArgValues[])
 
     FixBitmap(Buffer, Buffer2);
 
-    int DirResult = mkdir("fsm", 0664);
+    int DirResult = mkdir("fsm", 0755);
     if (!(DirResult == 0 || (DirResult == -1 && errno == EEXIST)))
     {
         fprintf(stderr, "Couldn't make output directory fsm/: %s", strerror(errno));
