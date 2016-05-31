@@ -2,7 +2,7 @@
 
 ![A sample graph generated out of three NFAs](http://cloud.chronal.net/public/nodegraph.png)
 
-Tool for generating FSM nodegraphs organized with force-based displacement.
+C++-based tool for generating FSM nodegraphs organized with force-based displacement.
 
 ## Usage
 
@@ -93,6 +93,9 @@ environment variable contains the path used above. If you wish to break on
 specific source files, you can simply drag them into Visual Studio from
 explorer and place your breakpoints.
 
+I have no intention of making a Visual Studio vcxproj available for building at
+this time. 
+
 ### Linux
 
 A makefile is provided which should work out of the box on most machines. Use
@@ -101,6 +104,30 @@ A makefile is provided which should work out of the box on most machines. Use
 To debug, I hope you have a good C++ debugger on hand. I prefer `cgdb` for most
 purposes, an ncurses wrapper for gdb that allows you to view the source code
 continuously while debugging.
+
+## Reading/Contributing
+
+The source code makes use of a number of C++ features such as light use of
+templates, declare-anywhere, typedef-less structs, etc. However, the coding
+style is very C-like, preferring POD structs to classes, procedures to methods,
+custom memory management to new/delete, etc. Commentary is dense in header files
+but currently fairly sparse in the bodies of modules, so some decisions may not
+be obvious. Also keep in mind that it was originally written in about 6 hours as
+a debug tool, and then expanded over 5 days into a more polished, self-enclosed
+product.
+
+If you intend to contribute to this repository, I encourage you to attempt to
+match the style of the code. It's somewhat nonstandard, and prefers simplicity
+and clarity over reuse of library code / encapsulation. Despite this, I feel it
+is fairly straightforward to read and modify.
+
+## Credits
+
+**Adam Blank** -- Teaching the CSE 311 course and providing most of the meat of
+the NFAWriter class, as well as creating the Grep project in the first place.
+
+**Sean Barrett** -- for `stb_image_write.h` and `stb_truetype.h`, indispensible
+single-header C libraries without which this project would not have been possible.
 
 ## To-do list
 
