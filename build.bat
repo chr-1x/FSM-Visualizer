@@ -9,14 +9,14 @@ echo.
 IF NOT EXIST build mkdir build
 pushd build
 
-set BASE_NAME=graphgen
-set EXE_NAME=%BASE_NAME%_win.exe
-set DLL_NAME=%BASE_NAME%.dll
+IF ["%LIBPATH%"] == [""] goto :no_vcvars
+
+set EXE_NAME=graphgen_win.exe
+set DLL_NAME=graphgen.dll
 set FILES= ../../code/graphgen.cpp ../../code/render.cpp ../../code/nfa_parse.cpp
 set PLATFILES= ../../code/graphgen_win.cpp 
-set DEFINES= /DINTERNAL=1
-set CCFLAGS= /MTd %DEFINES% /EHsc /O2 /Oi /WX /W4 /wd4201 /wd4505 /wd4706 /wd4996 /wd4127 /FC /Z7 /Fm
-set LDFLAGS= /incremental:no /opt:ref 
+set CCFLAGS= /MTd /EHsc /O2 /Oi /WX /W4 /wd4201 /wd4505 /FC /Z7 /Fm
+set LDFLAGS= /incremental:no /opt:ref
 goto :win64
 
 :win64
@@ -49,5 +49,11 @@ popd
 echo.
 goto :done
 
+:no_vcvars
+echo ERROR: Ensure you've called Visual Studio's vcvarsall.bat before building
+echo        This is usually in C:\Program Files ^(x86^)\Visual Studio ^<X^>\VC\
+echo.
+
 :done
 popd
+

@@ -205,7 +205,7 @@ Win32DirectoryWildcardLimit5(char* Search, int* NumberOfListedFiles, char* Liste
             char FullFilename[2 * MAX_PATH + 1];
             CatStrings(5, "data/", strlen(FindData.cFileName), FindData.cFileName, MAX_PATH * 2, FullFilename);
 
-            ListedFiles[(*NumberOfListedFiles)++] = strdup(FullFilename);
+            ListedFiles[(*NumberOfListedFiles)++] = _strdup(FullFilename);
         }
         Found = FindNextFile(FindHandle, &FindData);
     } while(Found != 0 && *NumberOfListedFiles < 5);
@@ -237,30 +237,27 @@ Win32GetSecondsElapsed(LARGE_INTEGER Start, LARGE_INTEGER End)
 internal char* 
 ReadFileIntoCString(char* Filename)
 {
-    FILE* File = fopen(Filename, "r");
-    if (File != NULL) 
-    {
-        fseek(File, 0, SEEK_END);
-        size_t Size = ftell(File);
-        rewind(File);
+    HANDLE FileHandle = CreateFileA(Filename, GENERIC_READ, FILE_SHARE_READ, 0, OPEN_EXISTING, 0, 0);
+    if (FileHandle == INVALID_HANDLE_VALUE) { return NULL; }
 
-        char* Memory = (char*)malloc(Size+1);
-        size_t Result = fread((void*)Memory, 1, Size, File);
-        Memory[Result] = '\0';
-        if (Result == Size
-            || feof(File)) 
-        { 
-            fclose(File);
-            return Memory; 
-        }
-        else 
-        {
-            free(Memory);
-            fclose(File);
-            return NULL; 
-        }
+    LARGE_INTEGER FileSize;
+    if (!GetFileSizeEx(FileHandle, &FileSize)) { return NULL; }
+
+    u32 FileSize32 = (u32)(FileSize.QuadPart);
+    char* Contents = (char*)VirtualAlloc(0, FileSize32 + 1, MEM_RESERVE|MEM_COMMIT, PAGE_READWRITE);
+    if (!Contents) { return NULL; }
+
+    DWORD BytesRead;
+    if (ReadFile(FileHandle, Contents, FileSize32, &BytesRead, 0)) 
+    {
+        Contents[BytesRead] = '\0';
+        return Contents;
     }
-    return NULL;
+    else 
+    {
+        VirtualFree(Contents, 0, MEM_RELEASE);
+        return NULL;
+    }
 }
 
 inline void

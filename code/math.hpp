@@ -1,13 +1,34 @@
+/* math.hpp 
+ * By Andrew Chronister, (c) 2016
+ *
+ * Vector math related structures and computation functions.  Note that this is
+ * a subset of a larger library of linear algebra-related functions, so there
+ * are likely a number of functions defined here that are not used anywhere in
+ * particular. A decent compiler should optimize them out.
+ *
+ * This file is defined as an .hpp file instead of a .h/.cpp pair so that the
+ * math functions may be inlined at the compiler's discretion.
+ */
+
 #pragma once
+
+// Purpose: Convenience typedefs and macro defintions
 #include "types.h"
+
+// Purpose: Math intrinsics, hopefully inlined as CPU instructions in most cases
+// by the optimizer
 #include <cmath>
 
 /// Int vectors/structures
 
+// Forward declarations of types to which some of the types below may be cast.
 union u8x3;
 union u8x4;
 union vec2;
 
+/* A two-dimensional vector with integral components.
+ * Useful for points or specifying dimensions of discrete objects such as
+ * bitmaps. */
 union ivec2 {
     struct {
         int X, Y;
@@ -23,39 +44,18 @@ union ivec2 {
     operator vec2();
 };
 
-union ivec4 {
-    struct {
-        int X, Y, Z, W;
-    };
-    struct {
-        int R, G, B, A;
-    };
-    int E[4];
-
-    operator u8x4();
-};
-
+/* A 32-bit structure carefully defined to allow 4-channel 8-bit color to be
+ * conveniently accessed with a typecast.
+ * The anonymous structure is for RGBA byte order, a la PNG, OpenGL, etc.
+ * The 'to' structure is for BGRA byte order, a la Windows DIBs.
+ */
 #pragma pack(push, 1)
-union u8x3 {
-    struct {
-        u8 R;
-        u8 G;
-        u8 B;
-    };
-    u8 E[3];
-};
-
 union u8x4 {
     struct {
         u8 R;
         u8 G;
         u8 B;
         u8 A;
-    };
-    struct
-    {
-        u8x3 RGB;
-        u8 _Ignored0;
     };
     struct
     {
@@ -66,15 +66,16 @@ union u8x4 {
     } to;
     u8 E[4];
     u32 Color;
-
-    operator ivec4();
 };
 #pragma pack(pop)
 
+/* Alternate name for the above structure. */
 typedef u8x4 pixel_color;
 
 /// Float vectors/structures
 
+/* Two dimensional vector with floating-point components.
+ * Good for representing values in a subset of the real-valued plane */
 union vec2
 {
 	struct { f32 x, y; };

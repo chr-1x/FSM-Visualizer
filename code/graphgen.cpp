@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <cstring>
 #include "types.h"
 #include "math.hpp"
