@@ -4,10 +4,25 @@
 
 Tool for generating FSM nodegraphs organized with force-based displacement.
 
-## Using the visualizer
+## Usage
 
 Prebuilt executables will be made available once the feature set has stabilized
 a bit.
+
+### Generating NFA data files
+
+Presently, the only way to generate valid data files is by using the provided
+NFAWriter class with UW CSE 311 Grep project.
+
+Copy the `NFAWriter.java` file to your Grep project's src directory. From
+anywhere in your code that deals with NFA's you can now add lines like the
+following:
+
+    NFAWriter.writeToFile(someNFA, "nfa_test.nfa");
+
+This will write out a string representation of that NFA to the directory where
+the code runs. From there, you can copy that `.nfa` file to the `data` folder of
+the FSM visualizer.
 
 ### Interactive use
 
